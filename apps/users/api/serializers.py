@@ -19,8 +19,6 @@ class TestUserSerializer(serializers.Serializer):
         if '' == value:
             raise serializers.ValidationError('Error, ingrese un correo')
         #Se puede validar de esta manera dentro de las funciones entre fields, en vez del validate general
-        if self.validate_name(self.context['name']) in value:
-            raise serializers.ValidationError('Error, el email no puede contener el nombre')
         return value
     
     def validate(self, data):
@@ -33,3 +31,10 @@ class TestUserSerializer(serializers.Serializer):
         return User.objects.create(**validated_data)
         #O se puede llamar el modelo que está definido en el serializer:
         #return self.model.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.email = validated_data.get('email', instance.email)
+        #El .save() llama el modelo donde se va a guardar
+        instance.save()
+        return instance

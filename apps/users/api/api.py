@@ -20,17 +20,6 @@ def user_api_view(request):
         user_serializer = UserSerializer(users, many= True)
         #Se retorna con response a la vista, PERO la informacion se encuentra en el atributo .data
 
-        test_data = {
-            'name':'Maria',
-            'email':'mariacuesta@hotmail.com'
-        }
-        test_data = TestUserSerializer(data = test_data, context = test_data)
-        if test_data.is_valid():
-            print ('paso validaciones')
-            user_instance = test_data.save()
-            print (user_instance)
-        else:
-            print (test_data.errors)
         return Response(user_serializer.data, status = status.HTTP_200_OK)
     
     #Cuando se hace un POST, se puede usar el serializer para corroborar que la info sea correcta
@@ -59,7 +48,8 @@ def user_detail_api_view(request, pk=None):
         
         #Este se utiliza para acutalizar la info, comprueba por medio del serializer la info enviada
         elif request.method == 'PUT':
-            user_serializer = UserSerializer(user, data = request.data)
+            #Para actualizar, se le pasa el usuario en cuestion, y la nueva informacion
+            user_serializer = TestUserSerializer(instance = user, data = request.data)
             if user_serializer.is_valid():
                 user_serializer.save()
                 return Response(user_serializer.data, status = status.HTTP_200_OK)
