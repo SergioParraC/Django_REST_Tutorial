@@ -35,6 +35,15 @@ class TestUserSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
-        #El .save() llama el modelo donde se va a guardar
+        #El .save() es del modelo pasado al serializer desde la vista, esto es durante el queryset
         instance.save()
         return instance
+
+    #Este save hace parte del serializer, nada que ver con el modelo
+    def save(self):
+        print(self)
+
+
+
+    
+    

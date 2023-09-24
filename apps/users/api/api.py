@@ -48,7 +48,7 @@ def user_detail_api_view(request, pk=None):
         
         #Este se utiliza para acutalizar la info, comprueba por medio del serializer la info enviada
         elif request.method == 'PUT':
-            #Para actualizar, se le pasa el usuario en cuestion, y la nueva informacion
+            #Para actualizar, se le pasa el usuario en cuestion, y la nueva informacion, aca dentro está el modelo
             user_serializer = TestUserSerializer(instance = user, data = request.data)
             if user_serializer.is_valid():
                 user_serializer.save()
