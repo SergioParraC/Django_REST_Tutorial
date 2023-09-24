@@ -30,3 +30,27 @@ def user_api_view(request):
             user_serializer.save()
             return Response(user_serializer.data)
         return Response(user_serializer.errors)
+
+#Se crea la vista de detalle de cada usuario, tambien se le agrega los metodos PUT y DELETE
+@api_view(['GET', 'PUT', 'DELETE'])
+def user_detail_api_view(request, pk=None):
+
+    #A la funcion se le ingresa el pk, o el parametro de consulta, que se va desde la url
+    #Se define cada uno de los metodos, en GET se muestra el detalle
+    if request.method == 'GET':
+        user = User.objects.filter(id = pk).first()
+        user_serializer = UserSerializer(user)
+        return Response(user_serializer.data)
+    #Este se utiliza para acutalizar la info, comprueba por medio del serializer la info enviada
+    elif request.method == 'PUT':
+        user = User.objects.filter(id = pk).first()
+        user_serializer = UserSerializer(user, data = request.data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response(user_serializer.data)
+        return Response(user_serializer.errors)
+    #Elimina la información
+    elif request.method == 'DELETE':
+        user = User.objects.filter(id = pk).first()
+        user.delete()
+        return Response('Eliminado')
