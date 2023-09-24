@@ -22,12 +22,13 @@ def user_api_view(request):
 
         test_data = {
             'name':'Bernabe',
-            'email':'bernaparramar@gmail.com'
+            'email':'Bernabe@hotmail.com'
         }
-        test_data = TestUserSerializer(data = test_data)
+        test_data = TestUserSerializer(data = test_data, context = test_data)
         if test_data.is_valid():
             print ('paso validaciones')
-        
+        else:
+            print (test_data.errors)
         return Response(user_serializer.data, status = status.HTTP_200_OK)
     
     #Cuando se hace un POST, se puede usar el serializer para corroborar que la info sea correcta
