@@ -21,12 +21,14 @@ def user_api_view(request):
         #Se retorna con response a la vista, PERO la informacion se encuentra en el atributo .data
 
         test_data = {
-            'name':'Bernabe',
-            'email':'Bernabe@hotmail.com'
+            'name':'Maria',
+            'email':'mariacuesta@hotmail.com'
         }
         test_data = TestUserSerializer(data = test_data, context = test_data)
         if test_data.is_valid():
             print ('paso validaciones')
+            user_instance = test_data.save()
+            print (user_instance)
         else:
             print (test_data.errors)
         return Response(user_serializer.data, status = status.HTTP_200_OK)

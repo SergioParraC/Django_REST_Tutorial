@@ -13,7 +13,6 @@ class TestUserSerializer(serializers.Serializer):
     def validate_name(self, value):
         if 'Bernabe' in value:
             raise serializers.ValidationError('Error, nadie se puede llamar Bernabe')
-        print(self.context)
         return value
     
     def validate_email(self, value):
@@ -28,3 +27,9 @@ class TestUserSerializer(serializers.Serializer):
         if data['name'] in data['email']:
             raise serializers.ValidationError('El nombre no puede estar en el email')
         return data
+    
+    def create(self, validated_data):
+        #Para guardar la info, se puede llamar la el modelo:
+        return User.objects.create(**validated_data)
+        #O se puede llamar el modelo que está definido en el serializer:
+        #return self.model.objects.create(**validated_data)
