@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from apps.users.models import User
-from apps.users.api.serializers import UserSerializer, TestUserSerializer
+from apps.users.api.serializers import UserSerializer
 
 #Ahora se va a utilizar un decorador en vez de una clase, en el decorador se le tiene que añadir
 #Los metodos que se van a ingresar, en este caso son GET y POST
@@ -15,7 +15,7 @@ def user_api_view(request):
     #Cuando se hace un GET, solo imprime la información solicitada
     if request.method =='GET':
         #Extrae la información que se requiere
-        users = User.objects.all()
+        users = User.objects.all().values('id','username', 'email')
         #Se hace el tratamiento de la información, se pone many=True porque va a traer muchos archivos
         user_serializer = UserSerializer(users, many= True)
         #Se retorna con response a la vista, PERO la informacion se encuentra en el atributo .data
@@ -49,7 +49,7 @@ def user_detail_api_view(request, pk=None):
         #Este se utiliza para acutalizar la info, comprueba por medio del serializer la info enviada
         elif request.method == 'PUT':
             #Para actualizar, se le pasa el usuario en cuestion, y la nueva informacion, aca dentro está el modelo
-            user_serializer = TestUserSerializer(instance = user, data = request.data)
+            user_serializer = UserSerializer(instance = user, data = request.data)
             if user_serializer.is_valid():
                 user_serializer.save()
                 return Response(user_serializer.data, status = status.HTTP_200_OK)
