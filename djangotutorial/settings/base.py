@@ -29,6 +29,8 @@ BASE_APPS = [
 
 LOCAL_APPS = [
     'apps.users',
+    'apps.base',
+    'apps.products',
 ]
 
 #Librerias externas
