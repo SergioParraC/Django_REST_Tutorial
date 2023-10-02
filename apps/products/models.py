@@ -25,7 +25,6 @@ class MeasureUnit(BaseModel):
 class CategoryProduct(BaseModel):
 
     description = models.CharField('Descripción', max_length=50, unique=True, null=False, blank=False)
-    measure_unit = models.ForeignKey(MeasureUnit, verbose_name='Unidad de Medida', on_delete=models.CASCADE)
     historical = HistoricalRecords()
 
     @property
@@ -61,6 +60,8 @@ class Product(BaseModel):
     name = models.CharField('Nombre de producto', max_length=150, unique=True, blank=False, null=False)
     description = models.TextField('Descripción del producto', blank=False, null=False)
     image = models.ImageField('Imagen del producto', upload_to='products/', blank=True, null=True)
+    measure_unit = models.ForeignKey(MeasureUnit, verbose_name='Unidad de Medida', on_delete=models.CASCADE, null=True)
+    category_product = models.ForeignKey(CategoryProduct, verbose_name='Categoria de producto', on_delete=models.CASCADE, null=True)
     historical = HistoricalRecords()
 
     @property
