@@ -5,16 +5,16 @@ class MeasuereUnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeasureUnit
         #De todos los campos que tiene, este no lo va a retornar en la consulta
-        exclude = ('state', )
+        exclude = ('state', 'create_date', 'modified_date', 'delete_day')
 
 class CategoryProductsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CategoryProduct
-        exclude = ('estate', )
+        exclude = ('state', 'create_date', 'modified_date', 'delete_day')
 
-class IndicadorSerializer(serializers.ModelSerializer):
+class IndicatorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Indicator
-        exclude = ('state', )
+        exclude = ('state', 'create_date', 'modified_date', 'delete_day')

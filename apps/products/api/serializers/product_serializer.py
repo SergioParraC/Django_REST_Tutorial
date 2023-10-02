@@ -5,4 +5,4 @@ class ProductSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ('state', )
+        exclude = ('state',)
