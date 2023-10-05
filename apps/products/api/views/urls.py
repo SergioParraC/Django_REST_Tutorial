@@ -1,6 +1,8 @@
 from django.urls import path
 from apps.products.api.views.general_views import MeasuereUnitListAPIView, IndicatorListAPIView, CategoryProductsListAPIView
-from apps.products.api.views.products_views import ProductListAPIView, ProductCreateAPIView
+from apps.products.api.views.products_views import (
+    ProductListAPIView, ProductCreateAPIView, ProductRetrieveAPIView, ProductDestroyAPIView
+    )
 
 urlpatterns = [
     #Se crea el nuevo enlace, se llama a la vista
@@ -8,5 +10,7 @@ urlpatterns = [
     path('indicator/', IndicatorListAPIView.as_view(), name='indicator'),
     path('category_products/', CategoryProductsListAPIView.as_view(), name='category_products'),
     path('products/list/', ProductListAPIView.as_view(), name='product_list'),
-    path('products/create/', ProductCreateAPIView.as_view(), name='product_create')
+    path('products/create/', ProductCreateAPIView.as_view(), name='product_create'),
+    path('products/retrieve/<int:pk>', ProductRetrieveAPIView.as_view(), name='product_retrieve'),
+    path('products/destroy/<int:pk>', ProductDestroyAPIView.as_view(), name='product_destroy')
 ]

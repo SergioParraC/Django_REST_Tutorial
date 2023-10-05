@@ -38,6 +38,7 @@ class ProductSerializers(serializers.ModelSerializer):
     def to_representation(self, instance):
         return{
             'id': instance.id,
+            'name': instance.name,
             'description': instance.description,
             #Se revisa si existe alguna imagen, si no esta entonces envia caranteres vacios y no un error
             'image': instance.image if instance.image != '' else '',
