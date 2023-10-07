@@ -42,3 +42,28 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
             return Response({'message': 'Producto eliminado correctamente'}, status = status.HTTP_200_OK)
         #Si no, muestra un error
         return Response({'error': 'No existe un producto con estos datos'}, status = status.HTTP_400_BAD_REQUEST)
+    
+class ProductUpdateAPIView(generics.UpdateAPIView):
+    serializer_class = ProductSerializers
+
+    def get_queryset(self, pk):
+        #Para no repetir consultas, se hace todo el query en la siguiente linea
+        return self.get_serializer().Meta.model.objects.filter(state = True).filter(id=pk).first()
+    
+    def patch(self, request, pk=None):
+        #Se llama la información que está en la base de datos
+        if self.get_queryset(pk):
+            #Se pasa la solicitud al serializer
+            product_serializer=self.serializer_class(self.get_queryset(pk))
+            return Response(product_serializer.data, status=status.HTTP_200_OK)
+        return Response({'error': 'No existe un producto con estos datos'}, status = status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk=None):
+        #Se envia la pk para que la consulte
+        if self.get_queryset(pk):
+            #Se mandan dos parametros, el inicial y el request con los cambios
+            product_serializer = self.serializer_class(self.get_queryset(pk), data = request.data)
+            if product_serializer.is_valid():
+                product_serializer.save()
+                return Response(product_serializer.data, status=status.HTTP_200_OK)
+            return Response(product_serializer.errors, status = status.HTTP_400_BAD_REQUEST)
