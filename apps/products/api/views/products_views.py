@@ -3,11 +3,9 @@ from apps.products.api.serializers.product_serializer import ProductSerializers
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-class ProductListAPIView(GeneralListAPIView):
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializers
-
-class ProductCreateAPIView(generics.CreateAPIView):
-    serializer_class = ProductSerializers
+    queryset = ProductSerializers.Meta.model.objects.filter(state = True)
 
     def post(self, request):
         serializer = self.serializer_class(data = request.data)
