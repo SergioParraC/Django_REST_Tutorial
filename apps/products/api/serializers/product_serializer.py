@@ -41,10 +41,10 @@ class ProductSerializers(serializers.ModelSerializer):
             'name': instance.name,
             'description': instance.description,
             #Se revisa si existe alguna imagen, si no esta entonces envia caranteres vacios y no un error
-            'image': instance.image if instance.image != '' else '',
+            'image': instance.image if instance.image else None,
             'measure_unit': {
-                'id': instance.measure_unit.id,
-                'description': instance.measure_unit.description
+                #'id': instance.measure_unit.id if instance.measure_unit.id is not None else '',
+                'description': instance.measure_unit.description if instance.measure_unit is not None else ''
             },
-            'category_product': instance.category_product.description
+            'category_product': instance.category_product.description if instance.category_product is not None else ''
         }
